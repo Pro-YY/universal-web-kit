@@ -1,0 +1,7 @@
+@import "../vendor/normalize.css";
+
+a {
+  color: purple;
+  font-weight: bold;
+  font-size: 250%;
+}
