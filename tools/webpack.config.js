@@ -16,19 +16,26 @@ const sharedConfig = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
-        options: {
-          babelrc: false,
-          presets: ['latest', 'react', 'stage-0'],
-          plugins: [
-            ['transform-runtime', {
-              'helpers': true,
-              'polyfill': true,
-              'regenerator': true,
-              'moduleName': 'babel-runtime',
-            }]
-          ],
-        },
+        include: [
+          SOURCE_ROOT,
+        ],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: false,
+              presets: ['latest', 'react', 'stage-0'],
+              plugins: [
+                ['transform-runtime', {
+                  'helpers': true,
+                  'polyfill': true,
+                  'regenerator': true,
+                  'moduleName': 'babel-runtime',
+                }]
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -50,7 +57,7 @@ const sharedConfig = {
   },
   resolve: {
     modules: [ 'node_modules' ],
-    extensions: [ '.js', ],
+    extensions: [ '.js', '.css' ],
   },
 }
 

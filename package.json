@@ -1,16 +1,15 @@
 {
   "name": "universal-web-kit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "bundle": "./node_modules/.bin/webpack --config tools/webpack.config.js",
     "start": "node build/server.main.bundle.js",
     "lint": "./node_modules/.bin/eslint source",
     "clean": "rm -rf build"
   },
-  "author": "BrookeYang <brookeyang@tencent.com>",
-  "license": "ISC",
+  "author": "YangYang <this@pro-yy.com>",
+  "license": "MIT",
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.0",
     "babel-cli": "^6.18.0",
@@ -22,13 +21,13 @@
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
-    "babel-runtime": "^6.20.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.12.2",
     "isomorphic-style-loader": "^1.1.0",
-    "webpack": "^2.2.0-rc.2"
+    "webpack": "^2.2.0-rc.3"
   },
   "dependencies": {
+    "babel-runtime": "^6.20.0",
     "express": "^4.14.0",
     "fastclick": "^1.0.6",
     "history": "^4.5.0",

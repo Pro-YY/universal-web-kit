@@ -8,19 +8,19 @@ import ReactDOM from 'react-dom/server'
 import { resolve } from 'universal-router'
 import serialize from 'serialize-javascript'
 
-import assets from './assets' // after build only
-
+import assets from './assets' // only exists after build
 import config from '../config'
 import Html from './Html'
 import { initHead } from './head'
 import App from '../shared/components/App'
 import routes from '../shared/routes'
 
+import demoMockApiRouter from './demo-mock-api-router'
+
 const app = express()
 app.use(logger('dev'))
 
 // mock api for demo item, feel free to remove
-const demoMockApiRouter = require('./demo-mock-api-router')
 app.use('/demo-mock-api', demoMockApiRouter)
 
 // static assets path for client.js
@@ -99,5 +99,5 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app)
 const port = config.PORT
 server.listen(port, () => {
-  console.log(`server listens on: ${port}`)
+  console.log(`server listening on port: ${port}`)
 })

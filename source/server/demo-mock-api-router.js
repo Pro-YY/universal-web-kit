@@ -20,4 +20,4 @@ router.get('/demo-items/:id', (req, res, next) => {
   res.json(item)
 })
 
-module.exports = router   // TODO how to es6 export?
+export default router
