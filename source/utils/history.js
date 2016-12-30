@@ -1,3 +1,3 @@
 import createBrowserHistory from 'history/createBrowserHistory'
 
-export default process.env.BROWSER && createBrowserHistory()
+export default DEFINE_BROWSER && createBrowserHistory()

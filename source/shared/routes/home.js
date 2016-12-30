@@ -10,7 +10,14 @@ export default {
       path: '/',
       async action() {
         return {
-          component: <HomePage/>
+          head: {
+            title: 'home',
+            description: 'home page',
+          },
+          element: {
+            component: HomePage,
+            props: {},
+          },
         }
       },
     },
@@ -18,7 +25,15 @@ export default {
       path: '/home/',
       async action(context) {
         return {
-          component: <HomePage/>
+          head: {
+            title: 'home',
+            description: 'home page',
+          },
+          component: <HomePage/>,
+          element: {
+            component: HomePage,
+            props: {},
+          },
         }
       },
     }

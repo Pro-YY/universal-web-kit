@@ -6,56 +6,81 @@ import logger from 'morgan'
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 import { resolve } from 'universal-router'
+import serialize from 'serialize-javascript'
 
 import assets from './assets' // after build only
+
+import config from '../config'
 import Html from './Html'
-import config from '../shared/config'
+import { initHead } from './head'
 import App from '../shared/components/App'
 import routes from '../shared/routes'
-
-import HomePage from '../shared/components/containers/pages/Home'
-import AboutPage from '../shared/components/containers/pages/About'
 
 const app = express()
 app.use(logger('dev'))
 
-app.get('/hello', (req, res, next) => {
-  res.end('hello, world!\n')
-})
+// mock api for demo item, feel free to remove
+const demoMockApiRouter = require('./demo-mock-api-router')
+app.use('/demo-mock-api', demoMockApiRouter)
 
 // static assets path for client.js
-app.use('/static', express.static(path.join(__dirname, 'public')))
-// mount webapp
-app.use(config.WEBAPP_BASEURL, async (req, res, next) => {
+// use / for public is the most convenient approach for nginx serve static
+app.use('/', express.static(path.join(__dirname, 'public')))
+// webapp server pages
+app.use(`/${config.WEBAPP_PREFIX}`, async (req, res, next) => {
   try {
+    if (config.DISABLE_SERVER_RENDER) {
+      // client render app only
+      const html = `<html><head>` +
+        `<script type="text/javascript" async src="${assets.main.js}"></script>` +
+        `</head><body>` +
+        `<div id="${config.WEBAPP_MOUNT_DOCROOT_ID}"></div>` +
+        `</body></html>`
+      return res.status(200).send(`<!doctype html>${html}`)
+    }
     // router result
-    console.log(`server route path: ${req.baseUrl + req.path}`)
     const route = await resolve(routes, {
       path: req.baseUrl + req.path,
       query: req.query,
+      fetch: true,
     })
     if (route.redirect) return res.redirect(route.status || 302, route.redirect)
 
-    const data = {...route}
     // set style into context, for defered css inject
     const css = new Set()
-    // Global (context) variables that can be easily accessed from any React component
-    // https://facebook.github.io/react/docs/context.html
     const context = {
-      // Enables critical path CSS rendering
-      // https://github.com/kriasoft/isomorphic-style-loader
       insertCss: (...styles) => { styles.forEach(style => css.add(style._getCss())) },
     }
 
-    data.children = ReactDOM.renderToString(
+    const routeElement = <route.element.component {...route.element.props}/>
+    const children = ReactDOM.renderToString(
       <App context={context}>
-        {route.component}
+        <div id="app-container">
+          <div id="delta-head"></div>
+          <div id="route-component">{routeElement}</div>
+        </div>
       </App>
     )
-    data.style = [...css].join('')
-    data.script = assets.main.js
+
+    const head = initHead({
+      title: route.head.title || 'server init title',
+      description: route.head.description || 'server init description',
+      style: [...css].join(''),
+      script: config.DISABLE_CLIENT_RENDER ? '' : assets.main.js,
+    })
+
+    const serialized = serialize({
+      fetched: route.element.props.fetched
+    }, {isJSON: true})
+    const serializedJsString = `var __serializedObject__ = ${serialized};`
+
+    const data = {
+      head: head, children: children,
+      childrenMountId: config.WEBAPP_MOUNT_DOCROOT_ID,
+      serialized: serializedJsString,
+    }
     const html = ReactDOM.renderToStaticMarkup(<Html {...data}/>)
-    res.status(200).send(`<!doctype html>${html}`)
+    return res.status(200).send(`<!doctype html>${html}`)
   }
   catch (err) { next(err) }
 })
@@ -72,6 +97,7 @@ app.use((err, req, res, next) => {
 })
 
 const server = http.createServer(app)
-server.listen(3000, () => {
-  console.log(`server listens on: 3000`)
+const port = config.PORT
+server.listen(port, () => {
+  console.log(`server listens on: ${port}`)
 })

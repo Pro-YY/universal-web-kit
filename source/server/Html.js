@@ -1,28 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 
 class Html extends Component {
-  /* TODO react static proptype checking not work?
-  static propTypes = {
-    title: PropTypes.string,
-    description: PropTypes.string,
-    style: PropTypes.string,
-    script: PropTypes.string,
-    children: PropTypes.string,
-  }
-  */
   render() {
-    const { title, description, style, script, children } = this.props
+    const { childrenMountId, children, head, serialized } = this.props
     return (
       <html>
         <head>
-          <title>{title}</title>
-          <meta charSet="utf-8"/>
-          <meta name="description" content={description}/>
-          {style && <style type="text/css" id="css" dangerouslySetInnerHTML={{ __html: style }} />}
+          { head.title.toComponent() }
+          { head.meta.toComponent() }
+          { head.style.toComponent() }
+          { head.script.toComponent() }
         </head>
         <body>
-          <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
-          {script && <script type="text/javascript" async src={script} />}
+          <div id={childrenMountId} dangerouslySetInnerHTML={{ __html: children }} />
+          <script type="text/javascript" id="server-rendered-serialized" dangerouslySetInnerHTML={{ __html: serialized }} />
         </body>
       </html>
     )

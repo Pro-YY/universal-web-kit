@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
-import history from '../../core/history'
+
+import history from '../../../utils/history'
+import config from '../../../config'
 
 function isLeftClickEvent(event) {
   return event.button === 0
@@ -31,11 +33,22 @@ class Link extends React.Component {
 
     event.preventDefault()
 
-    if (this.props.to === history.location.pathname) {
-      history.replace(this.props.to)
+    const dest = this.props.to
+    const curr = history.location.pathname
+    if (dest === curr) {
+      history.replace(dest)
+      return
+    }
+
+    const origin = config.EXTERNAL_URL || null // web external endpoint url like: https://example.com
+
+    if (dest.startsWith(origin)) {
+      const localDest = dest.replace(origin, '')
+      if (localDest === curr) history.replace(localDest)
+      else history.push(localDest)
     }
     else {
-      history.push(this.props.to)
+      history.push(dest)
     }
   }
 

@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 
 const ContextType = {
   // Enables critical path CSS rendering
   // https://github.com/kriasoft/isomorphic-style-loader
   insertCss: PropTypes.func.isRequired,
-};
+}
 
 /**
  * The top-level React component setting context (global) variables
@@ -26,20 +26,20 @@ class App extends React.Component {
   static propTypes = {
     context: PropTypes.shape(ContextType).isRequired,
     children: PropTypes.element.isRequired,
-  };
+  }
 
-  static childContextTypes = ContextType;
+  static childContextTypes = ContextType
 
   getChildContext() {
-    return this.props.context;
+    return this.props.context
   }
 
   render() {
     // NOTE: If you need to add or modify header, footer etc. of the app,
     // please do that inside the Layout component.
-    return React.Children.only(this.props.children);
+    return React.Children.only(this.props.children)
   }
 
 }
 
-export default App;
+export default App

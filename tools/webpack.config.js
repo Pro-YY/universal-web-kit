@@ -55,7 +55,7 @@ const sharedConfig = {
 }
 
 const serverConfig = Object.assign({}, sharedConfig, {
-target: 'node',
+  target: 'node',
   entry: {
     main: ['babel-polyfill', path.resolve(SOURCE_ROOT, 'server', 'main.js')],
   },
@@ -68,8 +68,9 @@ target: 'node',
     /^\.\/assets$/,     // for client js
   ],
   plugins: [
+    // https://webpack.github.io/docs/list-of-plugins.html#defineplugin, conditional transpiling
     new webpack.DefinePlugin({
-      'process.env.BROWSER': false,
+      'DEFINE_BROWSER': false,
     }),
   ],
   node: {
@@ -91,12 +92,12 @@ const clientConfig = Object.assign({}, sharedConfig, {
   },
   output: {
     path: path.resolve(BUILD_ROOT, 'public', 'assets'),
-    publicPath: '/static/assets/',   // needed by AssetsPlugin
+    publicPath: '/assets/',   // needed by AssetsPlugin
     filename: 'client.[name].[hash].bundle.js',
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.BROWSER': true,
+      'DEFINE_BROWSER': true,
     }),
     new AssetsPlugin({
       path: path.resolve(BUILD_ROOT),   // besides server entry

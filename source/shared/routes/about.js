@@ -5,7 +5,14 @@ export default {
   path: '/about/',
   async action() {
     return {
-      component: <AboutPage/>
+      head: {
+        title: 'about',
+        description: 'about page',
+      },
+      element: {
+        component: AboutPage,
+        props: {},
+      },
     }
   },
 }
