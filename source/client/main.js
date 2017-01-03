@@ -104,7 +104,11 @@ async function onLocationChange(location) {
     // it finds the first route that matches provided URL path string
     // and whose action method returns anything other than `undefined`.
     let needFetch = true
-    if (firstRender && __serializedObject__.fetched) needFetch = false
+    if (firstRender
+        && typeof(__serializedObject__) !== 'undefined'
+        && __serializedObject__.fetched) {
+      needFetch = false
+    }
 
     const route = await resolve(routes, {
       path: location.pathname,
