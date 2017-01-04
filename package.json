@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "bundle": "./node_modules/.bin/webpack --config tools/webpack.config.js",
-    "start": "node build/server.main.bundle.js",
+    "webpack": "./node_modules/.bin/webpack --config tools/webpack.config.js",
     "lint": "./node_modules/.bin/eslint source",
-    "clean": "rm -rf build"
+    "build": "./node_modules/.bin/babel-node tools/run build",
+    "clean": "./node_modules/.bin/babel-node tools/run clean",
+    "copy": "./node_modules/.bin/babel-node tools/run copy",
+    "bundle": "./node_modules/.bin/babel-node tools/run bundle",
+    "start": "node build/server.main.bundle.js"
   },
   "author": "YangYang <this@pro-yy.com>",
   "license": "MIT",
@@ -21,9 +24,13 @@
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
+    "chokidar": "^1.6.1",
     "css-loader": "^0.26.1",
     "eslint": "^3.12.2",
+    "glob": "^7.1.1",
     "isomorphic-style-loader": "^1.1.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4",
     "webpack": "^2.2.0-rc.3"
   },
   "dependencies": {

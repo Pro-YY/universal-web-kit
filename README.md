@@ -1,17 +1,14 @@
 # universal-web-kit
 universal webapp boilerplate
 
-stack: babel webpack express react css-modules
+tools involved: babel webpack express react css-module
 
 ## start
 ```
 npm install
-npm run bundle
-npm run start
+npm run build && npm run start
 # refer url in browser: http://localhost:3000
 ```
-
-
 
 inspired by
 
