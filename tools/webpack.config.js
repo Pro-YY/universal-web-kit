@@ -94,7 +94,7 @@ const serverConfig = Object.assign({}, sharedConfig, {
   devtool: 'source-map',
 })
 
-const CLIENT_PUBLIC_PATH = config.WEBAPP_PREFIX ? `/${config.WEBAPP_PREFIX}/static/assets/` : '/static/assets/'
+const CLIENT_PUBLIC_PATH = config.WEBAPP_PREFIX ? `/${config.WEBAPP_PREFIX}/public/assets/` : '/public/assets/'
 console.log(`CLIENT_PUBLIC_PATH: ${CLIENT_PUBLIC_PATH}`)
 const clientConfig = Object.assign({}, sharedConfig, {
   target: 'web',

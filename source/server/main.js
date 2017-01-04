@@ -26,7 +26,7 @@ console.log(`MOCK_API_MOUNT: ${MOCK_API_MOUNT}`)
 app.use(MOCK_API_MOUNT, demoMockApiRouter)
 
 // static assets path for client.js
-const WEBAPP_STATIC_MOUNT = config.WEBAPP_PREFIX ? '/' + config.WEBAPP_PREFIX + '/static' : '/static'
+const WEBAPP_STATIC_MOUNT = config.WEBAPP_PREFIX ? '/' + config.WEBAPP_PREFIX + '/public' : '/public'
 console.log(`WEBAPP_STATIC_MOUNT: ${WEBAPP_STATIC_MOUNT}`)
 app.use(WEBAPP_STATIC_MOUNT, express.static(path.join(__dirname, 'public')))
 
