@@ -7,6 +7,8 @@ const webpack = require('webpack')
 const path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
 
+const config = require('../source/config').default
+
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 const SOURCE_ROOT = path.resolve(PROJECT_ROOT, 'source')
 const BUILD_ROOT = path.resolve(PROJECT_ROOT, 'build')
@@ -92,6 +94,8 @@ const serverConfig = Object.assign({}, sharedConfig, {
   devtool: 'source-map',
 })
 
+const CLIENT_PUBLIC_PATH = config.WEBAPP_PREFIX ? `/${config.WEBAPP_PREFIX}/static/assets/` : '/static/assets/'
+console.log(`CLIENT_PUBLIC_PATH: ${CLIENT_PUBLIC_PATH}`)
 const clientConfig = Object.assign({}, sharedConfig, {
   target: 'web',
   entry: {
@@ -99,7 +103,7 @@ const clientConfig = Object.assign({}, sharedConfig, {
   },
   output: {
     path: path.resolve(BUILD_ROOT, 'public', 'assets'),
-    publicPath: '/assets/',   // needed by AssetsPlugin
+    publicPath: CLIENT_PUBLIC_PATH,   // needed by AssetsPlugin
     filename: 'client.[name].[hash].bundle.js',
   },
   plugins: [

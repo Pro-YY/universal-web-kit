@@ -1,4 +1,5 @@
 import React from 'react'
+import path from 'path'
 
 import config from '../../config'
 
@@ -16,7 +17,7 @@ export default {
       async action(context) {
         let fetched = null
         if (context.fetch === true) {
-          const res = await fetch(`${config.EXTERNAL_URL}/demo-mock-api/demo-items/`)
+          const res = await fetch(config.EXTERNAL_URL + path.resolve('/', config.WEBAPP_PREFIX, 'demo-mock-api/demo-items'))
           fetched = await res.json()
         }
         return {
@@ -36,7 +37,7 @@ export default {
       async action(context) {
         let fetched = null
         if (context.fetch === true) {
-          const res = await fetch(`${config.EXTERNAL_URL}/demo-mock-api/demo-items/${context.params.id}/`)
+          const res = await fetch(config.EXTERNAL_URL + path.resolve('/', config.WEBAPP_PREFIX, 'demo-mock-api/demo-items', context.params.id))
           fetched = await res.json()
         }
         return {
